@@ -26,6 +26,7 @@ class DeliveryListViewModel {
   
   var deliveries: [Delivery] = [Delivery]()
   var description: String = ""
+  var address: String = ""
   var imageResource: ImageResource?
   
   
@@ -39,6 +40,7 @@ class DeliveryListViewModel {
   }
   
   func parse(delivery: Delivery) {
+    parseAddress(delivery: delivery)
     parseDescription(delivery: delivery)
     parseImageSource(delivery: delivery)
   }
@@ -48,6 +50,14 @@ class DeliveryListViewModel {
       self.description = description
     } else {
       self.description = "Unavaible"
+    }
+  }
+  
+  private func parseAddress(delivery: Delivery) {
+    if let loc = delivery.location, let address = loc.address {
+      self.address = address
+    } else {
+      self.address = "Unavaible"
     }
   }
   
