@@ -36,9 +36,17 @@ class DeliveryTableViewCell: BaseTableViewCell {
   
   private lazy var descriptionLabel: UILabel = {
     let label = UILabel()
-    label.font = UIFont.systemFont(ofSize: 16)
-    label.textColor = .delivereeMainGray
+    label.font = UIFont.systemFont(ofSize: 16, weight: .bold)
+    label.textColor = .delivereeMain
     label.numberOfLines = 0
+    return label
+  }()
+  
+  private lazy var addressLabel: UILabel = {
+    let label = UILabel()
+    label.font = UIFont.systemFont(ofSize: 14)
+    label.textColor = .delivereeMainGray
+    label.numberOfLines = 1
     return label
   }()
   
@@ -49,6 +57,7 @@ class DeliveryTableViewCell: BaseTableViewCell {
     deliveryListVM.parse(delivery: delivery)
     
     descriptionLabel.text = deliveryListVM.description
+    addressLabel.text = deliveryListVM.address
     receiverImageView.kf.indicatorType = .activity
     receiverImageView.kf.setImage(
       with: deliveryListVM.imageResource,
@@ -83,8 +92,15 @@ class DeliveryTableViewCell: BaseTableViewCell {
     
     containerView.addSubview(descriptionLabel)
     descriptionLabel.snp.makeConstraints { (make) in
-      make.centerY.equalToSuperview()
+      make.top.equalTo(receiverImageView)
       make.leading.equalTo(receiverImageView.snp.trailing).offset(16)
+      make.trailing.equalToSuperview().inset(16)
+    }
+    
+    containerView.addSubview(addressLabel)
+    addressLabel.snp.makeConstraints { (make) in
+      make.top.equalTo(descriptionLabel.snp.bottom).offset(3)
+      make.leading.trailing.equalTo(descriptionLabel)
     }
   }
   
